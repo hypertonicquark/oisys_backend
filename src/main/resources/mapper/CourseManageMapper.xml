@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.njcit.mapper.CourseManageMapper">
+    <select id="getAllCourseManages" resultMap="CourseManageCom">
+        select * from aoa_course_manage
+    </select>
+
+    <select id="searchCourseManage" parameterType="String" resultMap="CourseManageCom">
+        select * from aoa_course_manage where course_name like "%"#{searchName}"%"
+    </select>
+
+    <resultMap id="CourseManageCom" type="CourseManage">
+        <collection property="attendClassSettingList" javaType="ArrayList" ofType="AttendClassSetting" column="id" select="getAttendClassSetting"/>
+    </resultMap>
+
+    <select id="getAttendClassSetting" resultType="AttendClassSetting">
+        select * from aoa_attend_class_setting where course_id = #{id}
+    </select>
+</mapper>

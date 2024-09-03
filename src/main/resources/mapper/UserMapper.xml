@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.njcit.mapper.UserMapper">
+    <resultMap id="studentResult" type="User">
+        <id property="classId" column="class_id"/>
+        <association property="oiClass" javaType="OIClass"
+                     column="class_id" select="cn.njcit.mapper.ClassMapper.selectById"/>
+    </resultMap>
+
+    <select id="getAllStudents" resultMap="studentResult">
+        select * from aoa_user
+        where role_id = 4 and is_lock = 0
+    </select>
+
+    <select id="searchStudents" parameterType="String" resultMap="studentResult">
+        select * from aoa_user where role_id = 4 and is_lock = 0 and
+        real_name like "%"#{searchName}"%"
+    </select>
+
+    <select id="getStudentById" parameterType="Long" resultMap="studentResult">
+        select * from aoa_user where role_id = 4 and is_lock = 0 and user_id=#{id}
+    </select>
+</mapper>
